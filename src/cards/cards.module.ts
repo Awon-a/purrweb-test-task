@@ -7,6 +7,7 @@ import { CardsRepository } from './cards.repository';
 @Module({
   imports: [TypeOrmModule.forFeature([CardsRepository])],
   controllers: [CardsController],
-  providers: [CardsService]
+  providers: [CardsService],
+  exports: [TypeOrmModule],
 })
 export class CardsModule { }

@@ -21,7 +21,7 @@ export class ColumnEntity {
     @ManyToOne(() => UserEntity, user => user.columns)
     user: UserEntity;
 
-    @Column('varchar', { nullable: true })
+    @Column('uuid', { nullable: true }) // ??
     userId?: string;
 
     @OneToMany(() => CardEntity, card => card.column)

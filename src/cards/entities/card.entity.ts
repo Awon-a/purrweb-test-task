@@ -1,7 +1,5 @@
-import { notStrictEqual } from "assert";
 import { ColumnEntity } from "src/columns/entities/column.entity";
 import { NoteEntity } from "src/notes/entities/note.entity";
-import { UserEntity } from "src/users/entities/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 const tableName = 'cards';
@@ -21,7 +19,10 @@ export class CardEntity {
     createdAt: string;
 
     @ManyToOne(() => ColumnEntity, column => column.cards)
-    column: string;
+    column: ColumnEntity;
+
+    @Column('uuid', { nullable: true }) // ??
+    columnId?: string;
 
     @OneToMany(() => NoteEntity, note => note.card)
     notes: NoteEntity[];

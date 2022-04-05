@@ -21,7 +21,12 @@ export class NoteEntity {
     @ManyToOne(() => UserEntity, user => user.notes)
     user: UserEntity;
 
+    @Column('uuid', { nullable: true }) // ??
+    userId?: string;
+
     @ManyToOne(() => CardEntity, card => card.notes)
     card: CardEntity;
 
+    @Column('uuid', { nullable: true }) // ??
+    cardId?: string;
 }

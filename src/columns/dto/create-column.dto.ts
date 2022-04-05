@@ -1,10 +1,11 @@
-import { IsEmpty, IsString, IsUUID, ValidateIf } from "class-validator";
+import { IsString, IsUUID, ValidateIf } from "class-validator";
+import { IsUndefined } from "src/decorators/decorators";
 
 export class CreateColumnDto {
     @IsString()
     name: string;
 
-    @ValidateIf((o, value) => value !== undefined)
+    @IsUndefined()
     @IsUUID()
     userId?: string;
 }

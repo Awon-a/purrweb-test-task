@@ -3,8 +3,6 @@ import { ColumnsRepository } from 'src/columns/columns.repository';
 import { CreateColumnDto } from 'src/columns/dto/create-column.dto';
 import { UpdateColumnDto } from 'src/columns/dto/update-column.dto';
 import { ColumnEntity } from 'src/columns/entities/column.entity';
-import { NoteEntity } from 'src/notes/entities/note.entity';
-import { NotesRepository } from 'src/notes/notes.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
@@ -15,15 +13,11 @@ export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
     private columnsRepository: ColumnsRepository,
-    private notesRepository: NotesRepository,
   ) { }
 
   createOne(createUserDto: CreateUserDto): Promise<UserEntity> {
     try {
-      const newUser = {
-        ...createUserDto
-      } as UserEntity;
-      return this.usersRepository.save(newUser);
+      return this.usersRepository.save(createUserDto);
     } catch (e) {
       throw e;
     }
