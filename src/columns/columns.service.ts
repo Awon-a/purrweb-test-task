@@ -71,7 +71,8 @@ export class ColumnsService {
         where: {
           id: cardId,
           columnId,
-        }
+        },
+        relations: ['column'],
       });
     } catch (e) {
       throw e;
