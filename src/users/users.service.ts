@@ -122,12 +122,11 @@ export class UsersService {
           HttpStatus.BAD_REQUEST
         );
       }
-      
+
       await this.columnsRepository.remove(column);
-      console.log(column);
+
       return true;
     } catch (e) {
-      console.log(e);
       return false;
     }
   }

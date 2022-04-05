@@ -18,13 +18,17 @@ export class NoteEntity {
     @UpdateDateColumn()
     updatedAt: string;
 
-    @ManyToOne(() => UserEntity, user => user.notes)
+    @ManyToOne(() => UserEntity, user => user.notes, {
+        onDelete: 'CASCADE',
+    })
     user: UserEntity;
 
     @Column('uuid', { nullable: true }) // ??
     userId?: string;
 
-    @ManyToOne(() => CardEntity, card => card.notes)
+    @ManyToOne(() => CardEntity, card => card.notes, {
+        onDelete: 'CASCADE',
+    })
     card: CardEntity;
 
     @Column('uuid', { nullable: true }) // ??
