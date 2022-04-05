@@ -18,7 +18,9 @@ export class CardEntity {
     @CreateDateColumn()
     createdAt: string;
 
-    @ManyToOne(() => ColumnEntity, column => column.cards)
+    @ManyToOne(() => ColumnEntity, column => column.cards, {
+        onDelete: 'CASCADE',
+    })
     column: ColumnEntity;
 
     @Column('uuid', { nullable: true }) // ??

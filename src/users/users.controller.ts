@@ -43,8 +43,11 @@ export class UsersController {
   }
 
   @Get(':userId/columns/:id')
-  findOneColumnUser(@Param('id', ParseUUIDPipe) columnId: string) {
-    return this.usersService.findOneColumnUser(columnId);
+  findOneColumnUser(
+    @Param('userId', ParseUUIDPipe) userId: string,
+    @Param('id', ParseUUIDPipe) columnId: string,
+  ) {
+    return this.usersService.findOneColumnUser(userId, columnId);
   }
 
   @Post(':id/columns')
@@ -57,14 +60,18 @@ export class UsersController {
 
   @Patch(':userId/columns/:id')
   updateOneColumnUser(
+    @Param('userId', ParseUUIDPipe) userId: string,
     @Param('id', ParseUUIDPipe) columnId: string,
     @Body() updateColumnDto: UpdateColumnDto,
   ) {
-    return this.usersService.updateOneColumnUser(columnId, updateColumnDto);
+    return this.usersService.updateOneColumnUser(userId, columnId, updateColumnDto);
   }
 
   @Delete(':userId/columns/:id')
-  deleteOneColumnUser(@Param('id', ParseUUIDPipe) columnId: string) {
-    return this.usersService.deleteOneColumnUser(columnId);
+  deleteOneColumnUser(
+    @Param('userId', ParseUUIDPipe) userId: string,
+    @Param('id', ParseUUIDPipe) columnId: string,
+  ) {
+    return this.usersService.deleteOneColumnUser(userId, columnId);
   }
 }

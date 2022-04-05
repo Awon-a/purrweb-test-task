@@ -18,7 +18,9 @@ export class ColumnEntity {
     @UpdateDateColumn()
     updatedAt: string;
 
-    @ManyToOne(() => UserEntity, user => user.columns)
+    @ManyToOne(() => UserEntity, user => user.columns, {
+        onDelete: 'CASCADE',
+    })
     user: UserEntity;
 
     @Column('uuid', { nullable: true }) // ??

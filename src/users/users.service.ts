@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ColumnsRepository } from 'src/columns/columns.repository';
 import { CreateColumnDto } from 'src/columns/dto/create-column.dto';
 import { UpdateColumnDto } from 'src/columns/dto/update-column.dto';
@@ -65,9 +65,14 @@ export class UsersService {
     }
   }
 
-  async findOneColumnUser(id: ColumnEntity['id']): Promise<ColumnEntity> {
+  async findOneColumnUser(userId: UserEntity['id'], columnId: ColumnEntity['id']): Promise<ColumnEntity> {
     try {
-      return this.columnsRepository.findOne(id);
+      return this.columnsRepository.findOne({
+        where: {
+          id: columnId,
+          userId,
+        },
+      });
     } catch (e) {
       throw e;
     }
@@ -81,20 +86,48 @@ export class UsersService {
     }
   }
 
-  async updateOneColumnUser(id: ColumnEntity['id'], updateColumnDto: UpdateColumnDto): Promise<ColumnEntity> {
+  async updateOneColumnUser(
+    userId: UserEntity['id'],
+    columnId: ColumnEntity['id'],
+    updateColumnDto: UpdateColumnDto,
+  ): Promise<ColumnEntity> {
     try {
-      return this.columnsRepository.save({ id, ...updateColumnDto })
+      const column = await this.findOneColumnUser(userId, columnId);
+
+      if (!column) {
+        throw new HttpException(
+          `Колонки с ID ${columnId} нет у пользователя с ID ${userId}`,
+          HttpStatus.BAD_REQUEST
+        );
+      }
+
+      const updatedColumn = {
+        ...column,
+        ...updateColumnDto,
+      }
+
+      return this.columnsRepository.save(updatedColumn);
     } catch (e) {
       throw e;
     }
   }
 
-  async deleteOneColumnUser(columnId: ColumnEntity['id']): Promise<boolean> {
+  async deleteOneColumnUser(userId: UserEntity['id'], columnId: ColumnEntity['id']): Promise<boolean> {
     try {
-      await this.columnsRepository.delete(columnId);
+      const column = await this.findOneColumnUser(userId, columnId);
 
+      if (!column) {
+        throw new HttpException(
+          `Колонки с ID ${columnId} нет у пользователя с ID ${userId}`,
+          HttpStatus.BAD_REQUEST
+        );
+      }
+      
+      await this.columnsRepository.remove(column);
+      console.log(column);
       return true;
     } catch (e) {
+      console.log(e);
       return false;
     }
   }
