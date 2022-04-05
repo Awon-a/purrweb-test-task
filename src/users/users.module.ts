@@ -4,6 +4,7 @@ import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersRepository } from './users.repository';
 import { ColumnsModule } from 'src/columns/columns.module';
+import { NotesModule } from 'src/notes/notes.module';
 
 @Module({
   imports: [

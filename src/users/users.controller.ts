@@ -2,11 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { parse } from 'path';
+import { CreateColumnDto } from 'src/columns/dto/create-column.dto';
+import { UpdateColumnDto } from 'src/columns/dto/update-column.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private usersService: UsersService) { }
 
   @Post()
   createOne(@Body() createUserDto: CreateUserDto) {
@@ -24,12 +25,46 @@ export class UsersController {
   }
 
   @Patch(':id')
-  updateOne(@Param('id', ParseUUIDPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+  updateOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.updateOne(id, updateUserDto);
   }
 
   @Delete(':id')
   deleteOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteOne(id);
+  }
+
+  @Get(':id/columns')
+  findAllColumnsUser(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.findColumnsUser(id);
+  }
+
+  @Get(':userId/columns/:id')
+  findOneColumnUser(@Param('id', ParseUUIDPipe) columnId: string) {
+    return this.usersService.findOneColumnUser(columnId);
+  }
+
+  @Post(':id/columns')
+  createOneColumnByUser(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() createColumnDto: CreateColumnDto,
+  ) {
+    return this.usersService.createOneColumnByUser(id, createColumnDto);
+  }
+
+  @Patch(':userId/columns/:id')
+  updateOneColumnUser(
+    @Param('id', ParseUUIDPipe) columnId: string,
+    @Body() updateColumnDto: UpdateColumnDto,
+  ) {
+    return this.usersService.updateOneColumnUser(columnId, updateColumnDto);
+  }
+
+  @Delete(':userId/columns/:id')
+  deleteOneColumnUser(@Param('id', ParseUUIDPipe) columnId: string) {
+    return this.usersService.deleteOneColumnUser(columnId);
   }
 }

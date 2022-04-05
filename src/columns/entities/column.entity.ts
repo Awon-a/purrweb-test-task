@@ -18,9 +18,12 @@ export class ColumnEntity {
     @UpdateDateColumn()
     updatedAt: string;
 
-    @OneToMany(() => CardEntity, card => card.column)
-    cards: CardEntity[];
-
     @ManyToOne(() => UserEntity, user => user.columns)
     user: UserEntity;
+
+    @Column('varchar', { nullable: true })
+    userId?: string;
+
+    @OneToMany(() => CardEntity, card => card.column)
+    cards: CardEntity[];
 }

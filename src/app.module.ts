@@ -18,7 +18,6 @@ import { ColumnEntity } from './columns/entities/column.entity';
       url: 'postgres://tsiibidi:M_1Zcq89EehWxwzWzxW-5ug10q5O_3Iz@ruby.db.elephantsql.com/tsiibidi',
       entities: [UserEntity, ColumnEntity, CardEntity, NoteEntity],
       synchronize: true,
-      logging: true,
     }),
     UsersModule,
     ColumnsModule,
