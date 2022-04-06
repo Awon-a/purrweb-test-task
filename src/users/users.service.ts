@@ -15,6 +15,24 @@ export class UsersService {
     private columnsRepository: ColumnsRepository,
   ) { }
 
+  async findOneByEmail(email: string): Promise<UserEntity> {
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (!user) {
+        throw new HttpException('Пользователя с таким email не существует', HttpStatus.BAD_REQUEST);
+      }
+
+      return user;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   createOne(createUserDto: CreateUserDto): Promise<UserEntity> {
     try {
       return this.usersRepository.save(createUserDto);

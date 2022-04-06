@@ -10,19 +10,26 @@ import { UserEntity } from './users/entities/user.entity';
 import { CardEntity } from './cards/entities/card.entity';
 import { NoteEntity } from './notes/entities/note.entity';
 import { ColumnEntity } from './columns/entities/column.entity';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { DB_URL } from './config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: 'postgres://tsiibidi:M_1Zcq89EehWxwzWzxW-5ug10q5O_3Iz@ruby.db.elephantsql.com/tsiibidi',
+      url: DB_URL,
       entities: [UserEntity, ColumnEntity, CardEntity, NoteEntity],
       synchronize: true,
     }),
     UsersModule,
     ColumnsModule,
     CardsModule,
-    NotesModule],
+    NotesModule,
+    AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

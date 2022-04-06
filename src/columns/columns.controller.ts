@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateCardDto } from 'src/cards/dto/create-card.dto';
 import { UpdateCardDto } from 'src/cards/dto/update-card.dto';
 import { ColumnsService } from './columns.service';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('columns')
 export class ColumnsController {
   constructor(private readonly columnsService: ColumnsService) { }

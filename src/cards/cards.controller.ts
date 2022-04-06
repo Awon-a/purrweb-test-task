@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('cards')
 export class CardsController {
   constructor(private readonly cardsService: CardsService) { }
