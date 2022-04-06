@@ -8,5 +8,8 @@ export class CreateCardDto {
     @IsUndefined()
     @IsUUID()
     columnId: string;
+
+    @IsUUID()
+    userId: string;
 }
 
