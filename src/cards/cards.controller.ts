@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UseGu
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
+import { IsOwnerNoteGuard } from 'src/notes/guards/owner-note.guard';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
@@ -60,6 +61,7 @@ export class CardsController {
     return this.cardsService.createOneCardNote(id, createNoteDto);
   }
 
+  @UseGuards(IsOwnerNoteGuard)
   @Patch(':cardId/notes/:noteId')
   updateOneCardNote(
     @Param('cardId', ParseUUIDPipe) cardId: string,
@@ -69,6 +71,7 @@ export class CardsController {
     return this.cardsService.updateOneCardNote(cardId, noteId, updateNoteDto);
   }
 
+  @UseGuards(IsOwnerNoteGuard)
   @Delete(':cardId/notes/:noteId')
   deleteOneCardNote(
     @Param('cardId', ParseUUIDPipe) cardId: string,

@@ -12,6 +12,6 @@ import { AuthModule } from 'src/auth/auth.module';
   ],
   controllers: [NotesController],
   providers: [NotesService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, NotesService],
 })
 export class NotesModule { }

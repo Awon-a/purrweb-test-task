@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserEntity } from 'src/users/entities/user.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { NoteEntity } from './entities/note.entity';
@@ -47,6 +48,19 @@ export class NotesService {
       await this.notesRepository.delete(id);
 
       return true;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async findOneNoteByUserId(id: NoteEntity['id'], userId: UserEntity['id']): Promise<NoteEntity> {
+    try {
+      return this.notesRepository.findOne({
+        where: {
+          id,
+          userId,
+        },
+      });
     } catch (e) {
       throw e;
     }

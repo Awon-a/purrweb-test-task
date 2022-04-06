@@ -3,6 +3,7 @@ import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { IsOwnerNoteGuard } from './guards/owner-note.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('notes')
@@ -24,11 +25,13 @@ export class NotesController {
     return this.notesService.findOne(id);
   }
 
+  @UseGuards(IsOwnerNoteGuard)
   @Patch(':id')
   updateOne(@Param('id', ParseUUIDPipe) id: string, @Body() updateNoteDto: UpdateNoteDto) {
     return this.notesService.updateOne(id, updateNoteDto);
   }
 
+  @UseGuards(IsOwnerNoteGuard)
   @Delete(':id')
   deleteOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.notesService.deleteOne(id);
