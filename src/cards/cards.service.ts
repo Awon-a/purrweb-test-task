@@ -3,6 +3,7 @@ import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
 import { NoteEntity } from 'src/notes/entities/note.entity';
 import { NotesRepository } from 'src/notes/notes.repository';
+import { UserEntity } from 'src/users/entities/user.entity';
 import { CardsRepository } from './cards.repository';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
@@ -134,6 +135,19 @@ export class CardsService {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  async findOneCardByUserId(id: CardEntity['id'], userId: UserEntity['id']): Promise<CardEntity> {
+    try {
+      return this.cardsRepository.findOne({
+        where: {
+          id,
+          userId,
+        },
+      });
+    } catch (e) {
+      throw e;
     }
   }
 }

@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ColumnsRepository } from './columns.repository';
 import { CardsModule } from 'src/cards/cards.module';
 import { AuthModule } from 'src/auth/auth.module';
-import { IsOwnerColumn } from './guards/owner-column.guard';
 
 @Module({
   imports: [
@@ -14,7 +13,7 @@ import { IsOwnerColumn } from './guards/owner-column.guard';
     AuthModule,
   ],
   controllers: [ColumnsController],
-  providers: [ColumnsService, IsOwnerColumn],
-  exports: [TypeOrmModule],
+  providers: [ColumnsService],
+  exports: [TypeOrmModule, ColumnsService],
 })
 export class ColumnsModule { }

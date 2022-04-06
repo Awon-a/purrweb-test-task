@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateColumnDto } from 'src/columns/dto/create-column.dto';
 import { UpdateColumnDto } from 'src/columns/dto/update-column.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { IsOwnerColumnGuard } from 'src/columns/guards/owner-column.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -26,7 +27,6 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   updateOne(
     @Param('id', ParseUUIDPipe) id: string,
@@ -61,6 +61,7 @@ export class UsersController {
     return this.usersService.createOneColumnByUser(id, createColumnDto);
   }
 
+  @UseGuards(IsOwnerColumnGuard)
   @Patch(':userId/columns/:id')
   updateOneColumnUser(
     @Param('userId', ParseUUIDPipe) userId: string,
@@ -70,6 +71,7 @@ export class UsersController {
     return this.usersService.updateOneColumnUser(userId, columnId, updateColumnDto);
   }
 
+  @UseGuards(IsOwnerColumnGuard)
   @Delete(':userId/columns/:id')
   deleteOneColumnUser(
     @Param('userId', ParseUUIDPipe) userId: string,

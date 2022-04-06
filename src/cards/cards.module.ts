@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CardsRepository } from './cards.repository';
 import { NotesModule } from 'src/notes/notes.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { IsOwnerCardGuard } from './guards/owner-card.guard';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { AuthModule } from 'src/auth/auth.module';
   ],
   controllers: [CardsController],
   providers: [CardsService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, CardsService],
 })
 export class CardsModule { }

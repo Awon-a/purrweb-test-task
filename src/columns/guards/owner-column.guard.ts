@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ColumnsService } from '../columns.service';
 
 @Injectable()
-export class IsOwnerColumn implements CanActivate {
+export class IsOwnerColumnGuard implements CanActivate {
     constructor(private columnsService: ColumnsService) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {

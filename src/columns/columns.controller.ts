@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UseGu
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateCardDto } from 'src/cards/dto/create-card.dto';
 import { UpdateCardDto } from 'src/cards/dto/update-card.dto';
+import { IsOwnerCardGuard } from 'src/cards/guards/owner-card.guard';
 import { ColumnsService } from './columns.service';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
-import { IsOwnerColumn } from './guards/owner-column.guard';
+import { IsOwnerColumnGuard } from './guards/owner-column.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('columns')
@@ -27,13 +28,13 @@ export class ColumnsController {
     return this.columnsService.findOne(id);
   }
 
-  @UseGuards(IsOwnerColumn)
+  @UseGuards(IsOwnerColumnGuard)
   @Patch(':id')
   updateOne(@Param('id', ParseUUIDPipe) id: string, @Body() updateColumnDto: UpdateColumnDto) {
     return this.columnsService.updateOne(id, updateColumnDto);
   }
 
-  @UseGuards(IsOwnerColumn)
+  @UseGuards(IsOwnerColumnGuard)
   @Delete(':id')
   deleteOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.columnsService.deleteOne(id);
@@ -60,7 +61,7 @@ export class ColumnsController {
     return this.columnsService.createOneCardColumn(id, createCardDto);
   }
   
-  @UseGuards(IsOwnerColumn)
+  @UseGuards(IsOwnerCardGuard)
   @Patch(':columnId/cards/:cardId')
   updateOneColumnCard(
     @Param('columnId', ParseUUIDPipe) columnId: string,
@@ -70,7 +71,7 @@ export class ColumnsController {
     return this.columnsService.updateOneColumnCard(columnId, cardId, updateCardDto);
   }
 
-  @UseGuards(IsOwnerColumn)
+  @UseGuards(IsOwnerCardGuard)
   @Delete(':columnId/cards/:cardId')
   deleteOneColumnCard(
     @Param('columnId', ParseUUIDPipe) columnId: string,

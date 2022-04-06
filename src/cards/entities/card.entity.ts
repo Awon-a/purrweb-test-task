@@ -1,5 +1,7 @@
+import { ColumnsController } from "src/columns/columns.controller";
 import { ColumnEntity } from "src/columns/entities/column.entity";
 import { NoteEntity } from "src/notes/entities/note.entity";
+import { UserEntity } from "src/users/entities/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 const tableName = 'cards';
@@ -28,4 +30,12 @@ export class CardEntity {
 
     @OneToMany(() => NoteEntity, note => note.card)
     notes: NoteEntity[];
+
+    @ManyToOne(() => UserEntity, user => user.cards, {
+        onDelete: 'CASCADE',
+    })
+    user: UserEntity;
+
+    @Column('uuid', { nullable: true })
+    userId: UserEntity['id'];
 }

@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { ColumnEntity as ColumnEntity } from 'src/columns/entities/column.entity';
 import { NoteEntity } from 'src/notes/entities/note.entity';
+import { CardEntity } from 'src/cards/entities/card.entity';
 
 const tableName = 'users';
 
@@ -29,4 +30,7 @@ export class UserEntity {
 
     @OneToMany(() => NoteEntity, note => note.user)
     notes: NoteEntity[];
+
+    @OneToMany(() => CardEntity, card => card.user)
+    cards: CardEntity[];
 }

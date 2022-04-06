@@ -5,6 +5,7 @@ import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
+import { IsOwnerCardGuard } from './guards/owner-card.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('cards')
@@ -26,11 +27,13 @@ export class CardsController {
     return this.cardsService.findOne(id);
   }
 
+  @UseGuards(IsOwnerCardGuard)
   @Patch(':id')
   updateOne(@Param('id', ParseUUIDPipe) id: string, @Body() updateCardDto: UpdateCardDto) {
     return this.cardsService.updateOne(id, updateCardDto);
   }
 
+  @UseGuards(IsOwnerCardGuard)
   @Delete(':id')
   deleteOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.cardsService.deleteOne(id);
