@@ -3,6 +3,7 @@ import { CardsRepository } from 'src/cards/cards.repository';
 import { CreateCardDto } from 'src/cards/dto/create-card.dto';
 import { UpdateCardDto } from 'src/cards/dto/update-card.dto';
 import { CardEntity } from 'src/cards/entities/card.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 import { ColumnsRepository } from './columns.repository';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
@@ -129,6 +130,19 @@ export class ColumnsService {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  async findOneColumnByUserId(id: ColumnEntity['id'], userId: UserEntity['id']): Promise<ColumnEntity> {
+    try {
+      return this.columnsRepository.findOne({
+        where: {
+          id,
+          userId,
+        },
+      });
+    } catch (e) {
+      throw e;
     }
   }
 }

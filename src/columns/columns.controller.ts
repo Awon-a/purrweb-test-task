@@ -5,6 +5,7 @@ import { UpdateCardDto } from 'src/cards/dto/update-card.dto';
 import { ColumnsService } from './columns.service';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
+import { IsOwnerColumn } from './guards/owner-column.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('columns')
@@ -26,11 +27,13 @@ export class ColumnsController {
     return this.columnsService.findOne(id);
   }
 
+  @UseGuards(IsOwnerColumn)
   @Patch(':id')
   updateOne(@Param('id', ParseUUIDPipe) id: string, @Body() updateColumnDto: UpdateColumnDto) {
     return this.columnsService.updateOne(id, updateColumnDto);
   }
 
+  @UseGuards(IsOwnerColumn)
   @Delete(':id')
   deleteOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.columnsService.deleteOne(id);
@@ -40,7 +43,7 @@ export class ColumnsController {
   findAllCardsColumn(@Param('id', ParseUUIDPipe) id: string) {
     return this.columnsService.findAllCardsColumn(id);
   }
-
+  
   @Get(':columnId/cards/:cardId')
   findOneColumnCard(
     @Param('columnId', ParseUUIDPipe) columnId: string,
@@ -56,7 +59,8 @@ export class ColumnsController {
   ) {
     return this.columnsService.createOneCardColumn(id, createCardDto);
   }
-
+  
+  @UseGuards(IsOwnerColumn)
   @Patch(':columnId/cards/:cardId')
   updateOneColumnCard(
     @Param('columnId', ParseUUIDPipe) columnId: string,
@@ -66,6 +70,7 @@ export class ColumnsController {
     return this.columnsService.updateOneColumnCard(columnId, cardId, updateCardDto);
   }
 
+  @UseGuards(IsOwnerColumn)
   @Delete(':columnId/cards/:cardId')
   deleteOneColumnCard(
     @Param('columnId', ParseUUIDPipe) columnId: string,
